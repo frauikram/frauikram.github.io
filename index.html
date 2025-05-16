@@ -5,6 +5,11 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon_io/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon_io/favicon-16x16.png">
+	<link rel="manifest" href="assets/favicon_io/site.webmanifest">
 </head>
 
 <body class="is-preload">
@@ -25,18 +30,18 @@
 		<!-- <h2 style="z-index: 1000; color:rgba(255, 255, 255, 0.786);">👋 Welcome, glad you're here! ☺️</h2>
 		<h2 style="z-index: 1000; color:rgba(255, 255, 255, 0.786);">I'm Rehma I. — Data & ML Professional		</h2> -->
 		<h1 style="z-index: 1000; color:rgba(255, 255, 255, 0.786);">Rehma I. | Data & ML Professional</h1>
-		<h6 style="z-index: 1000; color:rgba(255, 255, 255, 0.786); padding-left: 5%; padding-right:5%; align-items	: center; font-size: 12px;">
+		<h6
+			style="z-index: 1000; color:rgba(255, 255, 255, 0.786); padding-left: 5%; padding-right:5%; align-items	: center; font-size: 12px;">
 			Python & SQL | Predictive Modeling | Analytics-Driven Decision Making
 		</h6>
 	</nav>
 	<!-- Header -->
 
 	<div id="header">
-		<h6
-			style="z-index: 1000; color:rgba(0, 0, 0, 0.8); background-color: rgb(255, 255, 255, 0.8); 
+		<h6 style="z-index: 1000; color:rgba(0, 0, 0, 0.8); background-color: rgb(255, 255, 255, 0.8); 
 			margin-top: -20px; font-size: 14px; padding:1%; font-weight: bold;">
 			Behind every photo is a story — this one from Berlin holds a special place in mine. 🧡
-	</h6>
+		</h6>
 		<!-- <hr> -->
 		<!-- <br><br>
 		<br><br>
@@ -46,7 +51,8 @@
 		</h5> -->
 
 		<br><br><br><br><br><br><br><br>
-		<header class="feature" alt="Banner showing GitHub Frauikram" style="height: 100%; width: 100%; display: block;"></header>
+		<header class="feature" alt="Banner showing GitHub Frauikram"
+			style="height: 100%; width: 100%; display: block;"></header>
 	</div>
 	<!-- Main -->
 	<!-- work to do -->
@@ -131,15 +137,76 @@
 
 
 		<footer class="major container medium">
-			<h3>Let’s Work Together</h3>
-			<p style="padding-bottom: -10;">If you're looking for someone who blends data, marketing, and insights to drive results — you're in the
-				right place. 
-			</p>
+			<!-- requestmycv -->
+			<section>
+				<header>
+					<h3>Request a CV</h3>
+				</header>
+				<p style="padding-bottom: -10;">If you're looking for someone who blends data, marketing, and insights
+					to
+					drive results — you're in the
+					right place.
+				</p>
+				<form id="cv-request-form" method="post" action="#">
+					<div class="row">
+						<div class="col-6 col-12-mobilep">
+							<label for="contact-person">Contact Person</label>
+							<input class="text" type="text" name="name" id="name" value="" placeholder="HR John Doe" />
+						</div>
+						<div class="col-6 col-12-mobilep">
+							<label for="email">Email</label>
+							<input class="text" type="text" name="email" id="email" value=""
+								placeholder="johndoe@company.org" />
+						</div>
+						<ul class="actions special">
+							<li><input type="submit" value="Send" /></li>
+							<li><input type="reset" value="Reset" class="alt" /></li>
+						</ul>
+					</div>
+	</div>
+	</form>
 
-			<script src="https://platform.linkedin.com/badges/js/profile.js" async defer
-				type="text/javascript"></script>
-			
-		</footer>
+	<div id="cv-response" style="display:none; color: white;">✅ CV request sent!</div>
+
+	<!-- recording cv request and sending mail -->
+	<script>
+		const form = document.getElementById('cv-request-form');
+		const responseDiv = document.getElementById('cv-response');
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			const formData = new FormData(form);
+
+			fetch("https://script.google.com/macros/s/AKfycbwGp77Wf-sSqktC4NtQWe84vNELo7KLciQHTWWO4S8Zp844xg723drzZfxRd1Cjddg6CQ/exec", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: formData.get("name"),
+					email: formData.get("email")
+				})
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.status === "success") {
+						form.reset();
+						responseDiv.style.display = "block";
+					} else {
+						alert("Error: " + data.message);
+					}
+				})
+				.catch(error => {
+					alert("Something went wrong.");
+					console.error(error);
+				});
+		});
+	</script>
+
+
+	</section>
+	</footer>
 
 	</div>
 
