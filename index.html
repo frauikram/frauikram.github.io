@@ -76,11 +76,11 @@
 				</div>
 			</section>
 		</header>
-		<header class="major container medium">
+		<!--
+		<div class="major container medium">
 			<h3>Tools Summary</h3>
-			<div class="box" style="font-size: 12px; padding-top: 0px; padding-bottom: 20%;">
+			<div class="box" style="font-size: 12px; padding-top: 0px; padding-bottom: 15%;">
 				<section class="feature">
-					<!-- ML / Data Tools -->
 					<div class="content" style="font-size: 12px;">
 						<h6>👩‍💻 Analytics, Data & Machine Learning Tools</h6>
 						<p>
@@ -100,7 +100,6 @@
 								src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
 						</p>
 					</div>
-					<!-- Tech Stack -->
 					<div class="content" style="font-size: 12px;">
 						<h6>⚡ My Tech Stack</h6>
 						<p>
@@ -122,11 +121,11 @@
 					</div>
 				</section>
 			</div>
-		</header>
-
-		<div>
-			<h2>Certificates</h2>>
-
+		</div>
+	-->
+		<div class="content">
+			<h2>Certificates</h2>
+		</div>
 			<div class="box alt container">
 				<section class="feature left">
 					<a href="#" class="image icon solid !fa-signal">
@@ -185,8 +184,8 @@
 					</div>
 				</section>
 			</div>
-		</div>
 
+	
 		<footer class="major container medium">
 			<!-- requestmycv -->
 			<section>
@@ -216,8 +215,9 @@
 						</ul>
 					</div>
 				</form>
+				<div id="cv-response" style="display:none; color: white;">✅ CV request sent!</div>
+
 			</section>
-			<div id="cv-response" style="display:none; color: white;">✅ CV request sent!</div>
 		</footer>
 	</div>
 
@@ -349,16 +349,17 @@
 			e.preventDefault();
 
 			const formData = new FormData(form);
+			const data = {
+				name: formData.get("name"),
+				email: formData.get("email")
+			};
 
 			fetch("https://script.google.com/macros/s/AKfycbwGp77Wf-sSqktC4NtQWe84vNELo7KLciQHTWWO4S8Zp844xg723drzZfxRd1Cjddg6CQ/exec", {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({
-					name: formData.get("name"),
-					email: formData.get("email")
-				})
+				body: JSON.stringify(data)
 			})
 				.then(response => response.json())
 				.then(data => {
