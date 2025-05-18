@@ -199,6 +199,7 @@
 					right place.
 				</p>
 				<form id="cv-request-form" method="post" action="https://formspree.io/f/xkgryvoy">
+					<input type="hidden" name="formId" value="cvrequest">
 					<div class="row">
 						<div class="col-6 col-12-mobilep">
 							<label for="contact-person">Contact Person</label>
@@ -235,6 +236,7 @@
 			</p>
 
 			<form id="contact-form" method="post" action="https://formspree.io/f/xgvkdobv">
+				<input type="hidden" name="formId" value="contact">
 				<div class="row">
 					<div class="col-6 col-12-mobilep">
 						<input type="text" name="name" placeholder="Name">
@@ -255,7 +257,6 @@
 					</div>
 				</div>
 			</form>
-			<!-- This div will show the success message -->
 			<!-- Success Message -->
 			<div id="form-response" style="display: none; color: rgba(255, 255, 255, 0.8); margin-top: 20px;">
 				✅ Thank you! Your message has been received.
@@ -284,24 +285,46 @@
 	</div>
 
 	<!-- SCRIPTS -->
-	<!-- Date on footer -->
-	<script>
-		const dateElement = document.getElementById("current-date");
-		const today = new Date();
-		const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-		const months = [
-			"January", "February", "March", "April", "May", "June",
-			"July", "August", "September", "October", "November", "December"
-		];
-		const weekday = weekdays[today.getDay()];
-		const month = months[today.getMonth()];
-		const day = today.getDate();
-		const year = today.getFullYear();
-		dateElement.textContent = `${weekday}, ${month} ${day} ${year}`;
-		// today.toLocaleDateString("en-US", options);
-	</script>
 
-	<!-- contact form response on page -->
+
+	<script>
+		document.getElementById("cv-request-form").addEventListener("submit", function (e) {
+			e.preventDefault();
+
+			const form = e.target;
+			const formData = new FormData(form);
+			const data = Object.fromEntries(formData.entries());
+
+			// Add formId to identify it in Apps Script
+			data.formId = "cvrequest";
+
+			// Send to Google Apps Script
+			fetch("https://script.google.com/macros/s/AKfycbyOUJSlOOjMluWBCGZEXpj17t9hI-W_l2Ma_qJRfopM1K-qODZnUGTs09YE1bR5V-I/exec", {
+				method: "POST",
+				body: JSON.stringify(data),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Send to Formspree (for email)
+			fetch("https://formspree.io/f/xkgryvoy", {
+				method: "POST",
+				body: formData,
+				headers: {
+					"Accept": "application/json"
+				}
+			})
+				.then(response => {
+					if (response.ok) {
+						document.getElementById("cv-response").style.display = "block";
+						form.reset();
+					} else {
+						alert("Error submitting form. Please try again.");
+					}
+				});
+		});
+	</script>
 	<script>
 		document.getElementById("contact-form").addEventListener("submit", function (e) {
 			e.preventDefault();
@@ -310,8 +333,11 @@
 			const formData = new FormData(form);
 			const data = Object.fromEntries(formData.entries());
 
+			// Add formId to identify it in Apps Script
+			data.formId = "contact";
+
 			// Send to Google Apps Script
-			fetch("https://script.google.com/macros/s/AKfycbwnRgsJcO-yyQqFJMk6cDkHYcXFdpeifkQfUm0QPftztrlSqW1AO0RE7M0eehx92eiJDg/exec", {
+			fetch("https://script.google.com/macros/s/AKfycbyOUJSlOOjMluWBCGZEXpj17t9hI-W_l2Ma_qJRfopM1K-qODZnUGTs09YE1bR5V-I/exec", {
 				method: "POST",
 				body: JSON.stringify(data),
 				headers: {
@@ -337,72 +363,24 @@
 				});
 		});
 	</script>
-
-	<!-- cvrequest response on page -->
+	
+	<!-- Date on footer -->
 	<script>
-		document.getElementById("cv-request-form").addEventListener("submit", function (e) {
-			e.preventDefault();
-
-			const form = e.target;
-			const formData = new FormData(form);
-			const data = Object.fromEntries(formData.entries());
-
-			// Send to Formspree (for email)
-			fetch("https://formspree.io/f/xkgryvoy", {
-				method: "POST",
-				body: formData,
-				headers: {
-					"Accept": "application/json"
-				}
-			})
-				.then(response => {
-					if (response.ok) {
-						document.getElementById("cv-response").style.display = "block";
-						form.reset();
-					} else {
-						alert("Error submitting form. Please try again.");
-					}
-				});
-		});
+		const dateElement = document.getElementById("current-date");
+		const today = new Date();
+		const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		const months = [
+			"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		];
+		const weekday = weekdays[today.getDay()];
+		const month = months[today.getMonth()];
+		const day = today.getDate();
+		const year = today.getFullYear();
+		dateElement.textContent = `${weekday}, ${month} ${day} ${year}`;
+		// today.toLocaleDateString("en-US", options);
 	</script>
 
-
-	<!-- recording cv request and sending mail -->
-	<!-- <script>
-		const form = document.getElementById('cv-request-form');
-		const responseDiv = document.getElementById('cv-response');
-
-		form.addEventListener('submit', function (e) {
-			e.preventDefault();
-
-			const formData = new FormData(form);
-			const data = {
-				name: formData.get("name"),
-				email: formData.get("email")
-			};
-
-			fetch("https://script.google.com/macros/s/AKfycbwGp77Wf-sSqktC4NtQWe84vNELo7KLciQHTWWO4S8Zp844xg723drzZfxRd1Cjddg6CQ/exec", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(data)
-			})
-				.then(response => response.json())
-				.then(data => {
-					if (data.status === "success") {
-						form.reset();
-						responseDiv.style.display = "block";
-					} else {
-						alert("Error: " + data.message);
-					}
-				})
-				.catch(error => {
-					alert("Something went wrong.");
-					console.error(error);
-				});
-		});
-	</script> -->
 
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
