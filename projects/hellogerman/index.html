@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HelloGerman! App</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0D0B07;
+    --bg2:       #141007;
+    --bg3:       #1C1508;
+    --bg4:       #241C0A;
+    --gold:      #E8960A;
+    --amber:     #FBC748;
+    --amber2:    #F4A724;
+    --orange:    #D4600A;
+    --mint:      #A8D5C2;
+    --mint2:     #4A9E7E;
+    --mint3:     #C8EAD9;
+    --white:     #F5EDD8;
+    --white2:    rgba(245,237,216,0.7);
+    --white3:    rgba(245,237,216,0.4);
+    --white4:    rgba(245,237,216,0.15);
+    --border:    rgba(232,150,10,0.15);
+    --border2:   rgba(168,213,194,0.15);
+    --radius:    12px;
+    --radius2:   8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─────────────────────────────────── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 48px 60px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  /* SVG Tor background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    font-family: 'DM Mono', monospace;
+  }
+  .badge-version  { background: rgba(232,150,10,0.18); color: var(--amber); border: 0.5px solid rgba(232,150,10,0.3); }
+  .badge-platform { background: rgba(74,158,126,0.15); color: var(--mint); border: 0.5px solid rgba(74,158,126,0.3); }
+  .badge-lang     { background: rgba(255,255,255,0.06); color: var(--white2); border: 0.5px solid var(--white4); }
+  .badge-status   { background: rgba(74,158,126,0.2);  color: #7EE8B8; border: 0.5px solid rgba(74,158,126,0.35); }
+  .badge-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #7EE8B8; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 68px);
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+  .hero-title span { color: var(--amber); }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--white2);
+    margin-bottom: 28px;
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+  .hero-subtitle strong { color: var(--mint); font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: linear-gradient(135deg, var(--amber2), var(--orange)); color: #fff; }
+  .btn-secondary { background: rgba(255,255,255,0.06); color: var(--white2); border: 0.5px solid var(--white4); }
+  .btn-mint { background: rgba(74,158,126,0.2); color: var(--mint); border: 0.5px solid rgba(74,158,126,0.3); }
+
+  /* Publisher strip */
+  .publisher-strip {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 0.5px solid var(--white4);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .publisher-strip span {
+    font-size: 11px;
+    color: var(--white3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .publisher-strip strong { color: var(--white2); }
+
+  /* ─── MAIN LAYOUT ───────────────────────────── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  section {
+    padding: 56px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--white2);
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  /* ─── FEATURE GRID ──────────────────────────── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .feature-card {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 18px;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: rgba(232,150,10,0.35); }
+  .feature-card:nth-child(4n+1) { border-color: rgba(168,213,194,0.15); }
+  .feature-card:nth-child(4n+1):hover { border-color: rgba(168,213,194,0.4); }
+
+  .feat-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .feat-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .feat-desc {
+    font-size: 12px;
+    color: var(--white3);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ─── SCREENS GALLERY ───────────────────────── */
+  .screens-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .screen-thumb {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 9/16;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-thumb-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .screen-thumb-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 10px 10px 12px;
+    background: linear-gradient(0deg, rgba(10,6,2,0.95) 0%, transparent 100%);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--amber);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* Mini phone content inside thumbs */
+  .thumb-content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .thumb-bar { height: 2px; border-radius: 2px; }
+  .thumb-bar.gold { background: var(--amber); width: 60%; }
+  .thumb-bar.mint { background: var(--mint2); width: 40%; }
+  .thumb-line { height: 7px; border-radius: 3px; background: rgba(255,255,255,0.08); }
+  .thumb-line.w80 { width: 80%; }
+  .thumb-line.w60 { width: 60%; }
+  .thumb-line.w40 { width: 40%; }
+  .thumb-card { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(232,150,10,0.2); border-radius: 6px; padding: 7px 8px; }
+  .thumb-card .tl { height: 5px; border-radius: 2px; background: rgba(255,255,255,0.12); margin-bottom: 4px; }
+  .thumb-card .tl2 { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.07); width: 70%; }
+  .thumb-opt { height: 18px; border-radius: 5px; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.08); margin-bottom: 4px; }
+  .thumb-opt.correct { background: rgba(74,158,126,0.2); border-color: rgba(168,213,194,0.3); }
+
+  /* ─── TECH TABLE ────────────────────────────── */
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13px;
+  }
+  .tech-table thead tr {
+    background: var(--bg4);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .tech-table th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .tech-table tbody tr {
+    border-bottom: 0.5px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+  .tech-table tbody tr:hover { background: rgba(232,150,10,0.04); }
+  .tech-table td {
+    padding: 11px 16px;
+    color: var(--white2);
+    vertical-align: top;
+  }
+  .tech-table td:first-child { color: var(--white); font-weight: 500; white-space: nowrap; }
+  .tech-table td code {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--mint);
+  }
+
+  /* ─── SCHEMA ────────────────────────────────── */
+  .schema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .schema-box {
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .schema-box-header {
+    padding: 12px 16px;
+    background: rgba(74,158,126,0.1);
+    border-bottom: 0.5px solid var(--border2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .schema-box-header .db-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mint);
+  }
+  .schema-box-header .db-note {
+    font-size: 10px;
+    color: var(--white3);
+    margin-left: auto;
+    background: rgba(255,255,255,0.05);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .schema-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .schema-table tr { border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+  .schema-table tr:last-child { border-bottom: none; }
+  .schema-table td { padding: 8px 16px; color: var(--white3); }
+  .schema-table td:first-child { font-family: 'DM Mono', monospace; color: var(--amber); font-size: 11px; white-space: nowrap; }
+
+  /* ─── ROADMAP ────────────────────────────────── */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 24px;
+    position: relative;
+  }
+  .roadmap::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--amber), var(--mint2), rgba(255,255,255,0.05));
+  }
+  .road-item {
+    display: flex;
+    gap: 20px;
+    padding: 14px 0;
+    position: relative;
+  }
+  .road-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    flex-shrink: 0;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+    background: var(--bg);
+  }
+  .road-dot.done { border-color: var(--amber); background: var(--amber); }
+  .road-dot.active { border-color: var(--mint2); box-shadow: 0 0 8px rgba(74,158,126,0.5); }
+  .road-dot.next { border-color: var(--white3); }
+  .road-dot.future { border-color: rgba(255,255,255,0.15); }
+
+  .road-content { flex: 1; }
+  .road-content .phase {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 3px;
+  }
+  .road-content .phase.mint { color: var(--mint); }
+  .road-content .phase.dim { color: var(--white3); }
+  .road-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .road-content p {
+    font-size: 12px;
+    color: var(--white3);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ─── MONETISATION ──────────────────────────── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .tier-card {
+    border-radius: 16px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tier-free {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+  }
+  .tier-premium {
+    background: linear-gradient(135deg, rgba(232,150,10,0.12), rgba(212,96,10,0.08));
+    border: 0.5px solid rgba(232,150,10,0.3);
+  }
+  .tier-premium::after {
+    content: 'premium';
+    position: absolute;
+    top: 14px; right: -12px;
+    background: var(--amber2);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 3px 20px;
+    transform: rotate(45deg);
+    transform-origin: center;
+    right: -6px;
+    top: 10px;
+  }
+  .tier-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--white);
+    margin: 8px 0 4px;
+  }
+  .tier-price span { font-size: 14px; color: var(--white3); font-family: 'DM Sans', sans-serif; }
+  .tier-name {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white3);
+    margin-bottom: 16px;
+  }
+  .tier-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tier-features li { font-size: 12px; color: var(--white2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+  .tier-features li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; margin-top: 5px; }
+  .tier-premium .tier-features li::before { background: var(--amber); }
+  .tier-free .tier-features li::before { background: var(--mint2); }
+
+  /* ─── SETUP ─────────────────────────────────── */
+  .code-block {
+    background: #0A0703;
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 14px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white3);
+    font-family: 'DM Mono', monospace;
+  }
+  .code-block pre {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--amber);
+    white-space: pre;
+  }
+  .code-block pre .cm { color: var(--white3); }
+  .code-block pre .kw { color: var(--mint); }
+  .code-block pre .st { color: #F4A724; }
+  .code-block pre .pk { color: var(--amber2); }
+
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(232,150,10,0.15);
+    border: 0.5px solid rgba(232,150,10,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--amber);
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+  }
+  .step-body h4 { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .step-body p { font-size: 12px; color: var(--white3); margin: 0; }
+
+  /* ─── FOLDER STRUCTURE ──────────────────────── */
+  .folder-tree {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--white2);
+    padding: 20px 22px;
+    background: #0A0703;
+    border: 0.5px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    margin-top: 16px;
+  }
+  .folder-tree .dir { color: var(--amber); }
+  .folder-tree .file { color: var(--white3); }
+  .folder-tree .comment { color: rgba(255,255,255,0.2); }
+  .folder-tree .highlight { color: var(--mint); }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  .footer {
+    padding: 48px;
+    border-top: 0.5px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .footer-sub {
+    font-size: 12px;
+    color: var(--white3);
+    line-height: 1.6;
+  }
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--white3);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--mint); }
+
+  /* ─── DIVIDER ────────────────────────────────── */
+  .divider {
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ─── INLINE CODE ────────────────────────────── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--mint);
+  }
+
+  /* ─── AUDIENCE PILLS ─────────────────────────── */
+  .audience-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .audience-pill {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .ap1 { background: rgba(232,150,10,0.12); color: var(--amber); border: 0.5px solid rgba(232,150,10,0.25); }
+  .ap2 { background: rgba(74,158,126,0.12); color: var(--mint); border: 0.5px solid rgba(74,158,126,0.25); }
+  .ap3 { background: rgba(255,255,255,0.05); color: var(--white2); border: 0.5px solid var(--white4); }
+
+  /* responsive */
+  @media (max-width: 720px) {
+    .hero, .container, .footer { padding-left: 24px; padding-right: 24px; }
+    .feature-grid { grid-template-columns: 1fr 1fr; }
+    .screens-row { grid-template-columns: repeat(2, 1fr); }
+    .schema-grid, .tier-grid { grid-template-columns: 1fr; }
+    .tech-table { font-size: 12px; }
+  }
+  @media (max-width: 480px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .screens-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<div class="hero">
+  <!-- Brandenburger Tor BG -->
+  <svg class="hero-bg" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0A1520"/>
+        <stop offset="35%" stop-color="#122010"/>
+        <stop offset="70%" stop-color="#2E1806"/>
+        <stop offset="90%" stop-color="#5A2C04"/>
+        <stop offset="100%" stop-color="#8C4208"/>
+      </linearGradient>
+      <linearGradient id="hgate" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1E1208"/>
+        <stop offset="100%" stop-color="#080502"/>
+      </linearGradient>
+      <linearGradient id="hfade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#0D0B07" stop-opacity="1"/>
+        <stop offset="30%" stop-color="#0D0B07" stop-opacity="0"/>
+        <stop offset="70%" stop-color="#0D0B07" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#0D0B07" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="hfade2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="60%" stop-color="#0D0B07" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#0D0B07" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+
+    <rect width="1200" height="420" fill="url(#hsky)"/>
+
+    <!-- Sun glow -->
+    <ellipse cx="600" cy="320" rx="280" ry="100" fill="#FF8800" opacity="0.18"/>
+    <ellipse cx="600" cy="340" rx="140" ry="50" fill="#FFAA20" opacity="0.22"/>
+    <ellipse cx="600" cy="350" rx="60" ry="22" fill="#FFD060" opacity="0.4"/>
+
+    <!-- Clouds -->
+    <ellipse cx="200" cy="160" rx="120" ry="28" fill="#1A2A18" opacity="0.6"/>
+    <ellipse cx="240" cy="148" rx="80" ry="20" fill="#1E3020" opacity="0.5"/>
+    <ellipse cx="900" cy="180" rx="130" ry="26" fill="#182018" opacity="0.55"/>
+    <ellipse cx="950" cy="165" rx="90" ry="20" fill="#1E2818" opacity="0.45"/>
+    <ellipse cx="480" cy="120" rx="100" ry="22" fill="#161E14" opacity="0.4"/>
+    <ellipse cx="720" cy="130" rx="90" ry="18" fill="#161E14" opacity="0.35"/>
+
+    <!-- Ground -->
+    <rect x="0" y="340" width="1200" height="80" fill="#060402"/>
+
+    <!-- GATE — 5 columns (wide hero version) -->
+    <rect x="478" y="220" width="28" height="120" fill="url(#hgate)"/>
+    <rect x="520" y="220" width="28" height="120" fill="url(#hgate)"/>
+    <rect x="562" y="220" width="28" height="120" fill="url(#hgate)"/>
+    <rect x="604" y="220" width="28" height="120" fill="url(#hgate)"/>
+    <rect x="646" y="220" width="28" height="120" fill="url(#hgate)"/>
+
+    <!-- Top entablature -->
+    <rect x="465" y="205" width="222" height="18" fill="#1C1208"/>
+    <rect x="458" y="190" width="236" height="16" fill="#251A0C"/>
+    <rect x="454" y="178" width="244" height="14" fill="#1A1008"/>
+
+    <!-- Quadriga platform -->
+    <rect x="510" y="152" width="132" height="28" fill="#1E1408"/>
+    <rect x="506" y="144" width="140" height="10" fill="#180E06"/>
+
+    <!-- Horses silhouette -->
+    <ellipse cx="536" cy="130" rx="14" ry="8" fill="#130D06" opacity="0.9"/>
+    <rect x="529" y="130" width="5" height="16" fill="#0E0904"/>
+    <ellipse cx="560" cy="129" rx="15" ry="8" fill="#130D06" opacity="0.9"/>
+    <rect x="554" y="129" width="5" height="17" fill="#0E0904"/>
+    <ellipse cx="584" cy="130" rx="14" ry="8" fill="#130D06" opacity="0.9"/>
+    <rect x="578" y="130" width="5" height="16" fill="#0E0904"/>
+    <ellipse cx="608" cy="129" rx="15" ry="8" fill="#130D06" opacity="0.9"/>
+    <rect x="602" y="129" width="5" height="17" fill="#0E0904"/>
+
+    <!-- Chariot + Victoria -->
+    <ellipse cx="576" cy="120" rx="34" ry="14" fill="#100A04"/>
+    <ellipse cx="578" cy="106" rx="7" ry="10" fill="#0C0804"/>
+    <path d="M570 108 L558 96 M586 108 L598 96" stroke="#140E06" stroke-width="2.5" fill="none"/>
+
+    <!-- Arches -->
+    <path d="M478 220 L478 278 Q493 300 508 278 L508 220" fill="#040302" opacity="0.9"/>
+    <path d="M520 220 L520 283 Q548 313 576 283 L576 220" fill="#040302" opacity="0.9"/>
+    <path d="M562 220 L562 285 Q590 315 618 285 L618 220" fill="#040302" opacity="0.9"/>
+    <path d="M604 220 L604 283 Q632 313 660 283 L660 220" fill="#040302" opacity="0.9"/>
+    <path d="M646 220 L646 278 Q661 300 676 278 L676 220" fill="#040302" opacity="0.9"/>
+
+    <!-- Arch glow -->
+    <ellipse cx="548" cy="290" rx="24" ry="10" fill="#FF8800" opacity="0.1"/>
+    <ellipse cx="620" cy="292" rx="26" ry="10" fill="#FF9900" opacity="0.09"/>
+
+    <!-- Trees left -->
+    <ellipse cx="80" cy="280" rx="55" ry="120" fill="#050D07"/>
+    <ellipse cx="120" cy="300" rx="45" ry="100" fill="#060E08"/>
+    <ellipse cx="40" cy="300" rx="40" ry="110" fill="#040C06"/>
+    <ellipse cx="160" cy="310" rx="35" ry="85" fill="#060E08"/>
+
+    <!-- Trees right -->
+    <ellipse cx="1120" cy="280" rx="55" ry="120" fill="#050D07"/>
+    <ellipse cx="1080" cy="300" rx="45" ry="100" fill="#060E08"/>
+    <ellipse cx="1160" cy="300" rx="40" ry="110" fill="#040C06"/>
+    <ellipse cx="1040" cy="310" rx="35" ry="85" fill="#060E08"/>
+
+    <!-- Mint tint -->
+    <rect width="1200" height="420" fill="#4A9E7E" opacity="0.04"/>
+
+    <!-- Edge + bottom fades -->
+    <rect width="1200" height="420" fill="url(#hfade)"/>
+    <rect width="1200" height="420" fill="url(#hfade2)"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="badge badge-version">v1.0.0</span>
+      <span class="badge badge-platform">Android · iOS</span>
+      <span class="badge badge-lang">Python · Kivy</span>
+      <span class="badge badge-status">In Development</span>
+    </div>
+
+    <h1 class="hero-title">German<span>Ready</span></h1>
+    <p class="hero-subtitle">
+      Leben in Deutschland &amp; Einbürgerungstest prep app.<br>
+      <strong>Learn the language. Pass the test. Stay in Germany.</strong>
+    </p>
+
+    <div class="hero-actions">
+      <a href="#setup" class="btn btn-primary">🚀 Get Started</a>
+      <a href="#features" class="btn btn-secondary">✦ Features</a>
+      <a href="#roadmap" class="btn btn-mint">📍 Roadmap</a>
+    </div>
+
+    <div class="publisher-strip">
+      <span>Published by <strong>RealityMedia LLC</strong></span>
+      <span>·</span>
+      <span>Target <strong>310 Questions</strong></span>
+      <span>·</span>
+      <span>Platform <strong>Android-first</strong></span>
+      <span>·</span>
+      <span>License <strong>Private</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════ -->
+<div class="container">
+
+  <section id="about">
+    <div class="section-label">About</div>
+    <h2>What is GermanReady?</h2>
+    <p>
+      GermanReady is a mobile-first test prep and vocabulary app for people preparing for the official
+      <strong>Leben in Deutschland</strong> integration test (Einbürgerungstest). Unlike the sparse official app,
+      GermanReady layers bilingual support, vocabulary coaching, and clean UX on top of the full 310-question bank.
+    </p>
+    <p>
+      Every question comes with an inline <strong>vocabulary keyword table</strong> — German word, grammatical article,
+      IPA phonetics, and English translation. You're not just drilling answers. You're learning the language needed
+      to understand them.
+    </p>
+
+    <div class="audience-row">
+      <span class="audience-pill ap1">🇩🇪 Einbürgerungstest candidates</span>
+      <span class="audience-pill ap2">💑 Spouses doing A1/A2 family reunification</span>
+      <span class="audience-pill ap1">🏫 BAMF integration course students</span>
+      <span class="audience-pill ap3">📚 Self-learners entering German</span>
+      <span class="audience-pill ap2">🌍 Pakistani · Turkish · Arabic diaspora</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FEATURES
+  ════════════════════════════════════════════ -->
+  <section id="features">
+    <div class="section-label">Features</div>
+    <h2>Everything you need. Nothing you don't.</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feat-icon">📝</span>
+        <div class="feat-title">Full 310-Question Bank</div>
+        <p class="feat-desc">All 300 general questions + 10 state-specific per Bundesland. Mirrors the official catalogue exactly.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">⏱️</span>
+        <div class="feat-title">Test Simulation</div>
+        <p class="feat-desc">33-question timed test (60 min), state selector, instant results, full answer review with explanations.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🔤</span>
+        <div class="feat-title">DE ⇄ EN Toggle</div>
+        <p class="feat-desc">Flip every question, answer, and keyword table between German and English with one tap.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">📖</span>
+        <div class="feat-title">Vocab Keyword Table</div>
+        <p class="feat-desc">Per-question panel: German word + article (der/die/das) + English + IPA phonetics. Collapsible.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🃏</span>
+        <div class="feat-title">Flashcard Drills</div>
+        <p class="feat-desc">Swipe-to-flip flashcards from the full extracted vocabulary list. Mark learned / needs review.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🎯</span>
+        <div class="feat-title">Article Quiz Mode</div>
+        <p class="feat-desc">See the noun — pick der, die, or das. Builds the muscle memory that textbooks can't.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">📊</span>
+        <div class="feat-title">Progress Dashboard</div>
+        <p class="feat-desc">Accuracy by topic, test history, words learned, day streak, weak areas highlighted.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🌙</span>
+        <div class="feat-title">Premium Mode — €1.99</div>
+        <p class="feat-desc">One-time unlock. Ad-free, dark mode, TTS pronunciation, PDF vocabulary export.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">📍</span>
+        <div class="feat-title">Bundesland Selector</div>
+        <p class="feat-desc">Pick your state. State-specific questions auto-populate your tests and practice sessions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SCREENS
+  ════════════════════════════════════════════ -->
+  <section id="screens">
+    <div class="section-label">UI Screens</div>
+    <h2>Four screens. One coherent experience.</h2>
+    <p>Brandenburger Tor evening sky. Amber–orange–gold palette with mint green accents. Glass-morphism cards. Playfair Display headings.</p>
+
+    <div class="screens-row">
+      <!-- Login thumb -->
+      <div class="screen-thumb">
+        <svg class="screen-thumb-bg" viewBox="0 0 100 178" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="ts1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0D1A2A"/>
+              <stop offset="55%" stop-color="#3D2208"/>
+              <stop offset="100%" stop-color="#8C4008"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="178" fill="url(#ts1)"/>
+          <ellipse cx="50" cy="115" rx="35" ry="18" fill="#FF8800" opacity="0.25"/>
+          <rect x="0" y="135" width="100" height="43" fill="#060402"/>
+          <rect x="22" y="92" width="6" height="43" fill="#1E1208"/>
+          <rect x="32" y="92" width="6" height="43" fill="#1E1208"/>
+          <rect x="42" y="92" width="6" height="43" fill="#1E1208"/>
+          <rect x="52" y="92" width="6" height="43" fill="#1E1208"/>
+          <rect x="62" y="92" width="6" height="43" fill="#1E1208"/>
+          <rect x="19" y="87" width="62" height="6" fill="#251508"/>
+          <rect x="32" y="76" width="36" height="11" fill="#1E1008"/>
+          <ellipse cx="15" cy="115" rx="12" ry="28" fill="#050D07"/>
+          <ellipse cx="85" cy="115" rx="12" ry="28" fill="#050D07"/>
+          <rect width="100" height="178" fill="#4A9E7E" opacity="0.05"/>
+        </svg>
+        <div class="thumb-content" style="padding-top:28px;">
+          <div class="thumb-line w60" style="height:8px; background:rgba(251,199,72,0.5); border-radius:3px; margin-bottom:8px;"></div>
+          <div style="height:38px; background:rgba(15,10,4,0.8); border:0.5px solid rgba(232,150,10,0.2); border-radius:8px; padding:5px 7px; margin-bottom:5px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:5px;">
+              <div style="height:14px; background:rgba(255,255,255,0.06); border-radius:3px;"></div>
+              <div style="height:14px; background:rgba(24,119,242,0.2); border-radius:3px;"></div>
+            </div>
+            <div class="thumb-line" style="margin-bottom:3px;"></div>
+            <div class="thumb-line w80"></div>
+          </div>
+          <div style="height:14px; background:linear-gradient(135deg,#E8960A,#D4600A); border-radius:4px;"></div>
+        </div>
+        <div class="screen-thumb-label">Login</div>
+      </div>
+
+      <!-- Sign up thumb -->
+      <div class="screen-thumb">
+        <svg class="screen-thumb-bg" viewBox="0 0 100 178" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="ts2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0A1520"/>
+              <stop offset="55%" stop-color="#3A1E06"/>
+              <stop offset="100%" stop-color="#8A3E06"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="178" fill="url(#ts2)"/>
+          <ellipse cx="50" cy="118" rx="32" ry="16" fill="#FF8800" opacity="0.22"/>
+          <rect x="0" y="138" width="100" height="40" fill="#060402"/>
+          <rect x="22" y="95" width="6" height="43" fill="#1E1208"/>
+          <rect x="32" y="95" width="6" height="43" fill="#1E1208"/>
+          <rect x="42" y="95" width="6" height="43" fill="#1E1208"/>
+          <rect x="52" y="95" width="6" height="43" fill="#1E1208"/>
+          <rect x="62" y="95" width="6" height="43" fill="#1E1208"/>
+          <rect x="19" y="90" width="62" height="6" fill="#251508"/>
+          <rect x="32" y="79" width="36" height="11" fill="#1E1008"/>
+          <ellipse cx="15" cy="118" rx="10" ry="26" fill="#050D07"/>
+          <ellipse cx="85" cy="118" rx="10" ry="26" fill="#050D07"/>
+          <rect width="100" height="178" fill="#4A9E7E" opacity="0.05"/>
+        </svg>
+        <div class="thumb-content" style="padding-top:24px;">
+          <div class="thumb-line w40" style="height:7px; background:rgba(251,199,72,0.45); border-radius:3px; margin-bottom:6px;"></div>
+          <div style="height:50px; background:rgba(15,10,4,0.8); border:0.5px solid rgba(232,150,10,0.2); border-radius:8px; padding:6px 7px; margin-bottom:5px;">
+            <div class="thumb-line" style="margin-bottom:3px;"></div>
+            <div class="thumb-line w80" style="margin-bottom:3px;"></div>
+            <div class="thumb-line w60" style="margin-bottom:3px;"></div>
+            <div class="thumb-line w80"></div>
+          </div>
+          <div style="height:14px; background:linear-gradient(135deg,#E8960A,#D4600A); border-radius:4px;"></div>
+        </div>
+        <div class="screen-thumb-label">Sign Up</div>
+      </div>
+
+      <!-- Home thumb -->
+      <div class="screen-thumb">
+        <svg class="screen-thumb-bg" viewBox="0 0 100 178" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="ts3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0D1A2A"/>
+              <stop offset="50%" stop-color="#3D2208"/>
+              <stop offset="100%" stop-color="#7A3808"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="178" fill="url(#ts3)"/>
+          <ellipse cx="50" cy="128" rx="30" ry="14" fill="#FF8800" opacity="0.2"/>
+          <rect x="0" y="145" width="100" height="33" fill="#060402"/>
+          <rect x="24" y="108" width="5" height="37" fill="#1A1008"/>
+          <rect x="33" y="108" width="5" height="37" fill="#1A1008"/>
+          <rect x="42" y="108" width="5" height="37" fill="#1A1008"/>
+          <rect x="51" y="108" width="5" height="37" fill="#1A1008"/>
+          <rect x="60" y="108" width="5" height="37" fill="#1A1008"/>
+          <rect x="20" y="104" width="60" height="5" fill="#221508"/>
+          <rect x="28" y="94" width="44" height="10" fill="#1A1006"/>
+          <ellipse cx="12" cy="128" rx="10" ry="26" fill="#050D07"/>
+          <ellipse cx="88" cy="128" rx="10" ry="26" fill="#050D07"/>
+          <rect width="100" height="178" fill="#4A9E7E" opacity="0.05"/>
+          <rect x="0" y="130" width="100" height="48" fill="rgba(8,5,2,0.7)"/>
+        </svg>
+        <div class="thumb-content" style="padding-top:20px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
+            <div>
+              <div class="thumb-line w60" style="height:5px; margin-bottom:3px;"></div>
+              <div class="thumb-line w40" style="height:7px; background:rgba(251,199,72,0.4); border-radius:2px;"></div>
+            </div>
+            <div style="width:16px; height:16px; border-radius:50%; background:rgba(74,158,126,0.3);"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-bottom:6px;">
+            <div style="height:24px; background:rgba(15,10,4,0.75); border:0.5px solid rgba(232,150,10,0.2); border-radius:5px;"></div>
+            <div style="height:24px; background:rgba(15,10,4,0.75); border:0.5px solid rgba(232,150,10,0.2); border-radius:5px;"></div>
+            <div style="height:24px; background:rgba(15,10,4,0.75); border:0.5px solid rgba(232,150,10,0.2); border-radius:5px;"></div>
+          </div>
+          <div style="height:26px; background:linear-gradient(135deg,rgba(232,150,10,0.7),rgba(212,96,10,0.7)); border-radius:7px; margin-bottom:5px;"></div>
+          <div style="height:16px; background:rgba(15,10,4,0.7); border:0.5px solid rgba(168,213,194,0.15); border-radius:5px;"></div>
+        </div>
+        <div class="screen-thumb-label">Home</div>
+      </div>
+
+      <!-- Question thumb -->
+      <div class="screen-thumb">
+        <svg class="screen-thumb-bg" viewBox="0 0 100 178" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="ts4" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0D1A2A"/>
+              <stop offset="50%" stop-color="#3D2208"/>
+              <stop offset="100%" stop-color="#7A3808"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="178" fill="url(#ts4)"/>
+          <ellipse cx="50" cy="130" rx="30" ry="14" fill="#FF8800" opacity="0.17"/>
+          <rect x="0" y="148" width="100" height="30" fill="#060402"/>
+          <rect x="24" y="112" width="5" height="36" fill="#1A1008"/>
+          <rect x="33" y="112" width="5" height="36" fill="#1A1008"/>
+          <rect x="42" y="112" width="5" height="36" fill="#1A1008"/>
+          <rect x="51" y="112" width="5" height="36" fill="#1A1008"/>
+          <rect x="60" y="112" width="5" height="36" fill="#1A1008"/>
+          <rect x="20" y="108" width="60" height="5" fill="#221508"/>
+          <rect x="28" y="98" width="44" height="10" fill="#1A1006"/>
+          <ellipse cx="12" cy="130" rx="10" ry="26" fill="#050D07"/>
+          <ellipse cx="88" cy="130" rx="10" ry="26" fill="#050D07"/>
+          <rect width="100" height="178" fill="#4A9E7E" opacity="0.05"/>
+          <rect x="0" y="130" width="100" height="48" fill="rgba(8,5,2,0.75)"/>
+        </svg>
+        <div class="thumb-content" style="padding-top:18px;">
+          <div style="height:3px; background:rgba(255,255,255,0.07); border-radius:2px; margin-bottom:8px; overflow:hidden;">
+            <div style="height:100%; width:43%; background:linear-gradient(90deg,#E8960A,#FBC748); border-radius:2px;"></div>
+          </div>
+          <div style="height:28px; background:rgba(10,6,2,0.8); border:0.5px solid rgba(232,150,10,0.2); border-radius:6px; margin-bottom:5px; padding:5px 7px;">
+            <div class="thumb-line w40" style="height:4px; background:rgba(168,213,194,0.3); margin-bottom:3px;"></div>
+            <div class="thumb-line" style="height:4px;"></div>
+          </div>
+          <div class="thumb-opt" style="height:15px;"></div>
+          <div class="thumb-opt correct" style="height:15px;"></div>
+          <div class="thumb-opt" style="height:15px;"></div>
+          <div style="height:24px; background:rgba(10,6,2,0.75); border:0.5px solid rgba(168,213,194,0.18); border-radius:5px; margin-top:4px; padding:4px 6px;">
+            <div class="thumb-line w60" style="height:3px; background:rgba(168,213,194,0.25); margin-bottom:2px;"></div>
+            <div class="thumb-line w80" style="height:3px;"></div>
+            <div class="thumb-line w40" style="height:3px; margin-top:2px; background:rgba(232,150,10,0.3);"></div>
+          </div>
+        </div>
+        <div class="screen-thumb-label">Question</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TECH STACK
+  ════════════════════════════════════════════ -->
+  <section id="stack">
+    <div class="section-label">Tech Stack</div>
+    <h2>Python-first. Local-first. Ship-fast.</h2>
+    <p>Built entirely in Python for portability and speed. No JavaScript frameworks, no cloud dependency, no moving parts at runtime.</p>
+
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>UI Framework</td><td><code>Kivy 2.x</code> + <code>KivyMD</code></td><td>Cross-platform mobile UI in Python</td></tr>
+        <tr><td>Local Database</td><td><code>SQLite</code> + <code>Peewee ORM</code></td><td>Bundled question bank + user progress</td></tr>
+        <tr><td>Android Build</td><td><code>Buildozer</code></td><td>Compiles .apk / .aab for Play Store</td></tr>
+        <tr><td>NLP / Vocab</td><td><code>spaCy de_core_news_sm</code></td><td>POS tagging, article extraction, vocab pipeline</td></tr>
+        <tr><td>Translations</td><td><code>DeepL API</code></td><td>German → English for all questions + vocab</td></tr>
+        <tr><td>Phonetics</td><td><code>epitran</code></td><td>IPA transcription for German words</td></tr>
+        <tr><td>Ads</td><td><code>Google AdMob</code></td><td>Banner + interstitial (free tier)</td></tr>
+        <tr><td>IAP</td><td><code>Google Play Billing</code></td><td>premium €1.99 one-time unlock</td></tr>
+        <tr><td>TTS (premium)</td><td><code>Plyer</code> → Android TTS</td><td>Audio pronunciation of vocab words</td></tr>
+        <tr><td>Dev Environment</td><td><code>Google Colab</code> + <code>github.dev</code></td><td>Mobile-friendly coding setup</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       DATABASE SCHEMA
+  ════════════════════════════════════════════ -->
+  <section id="schema">
+    <div class="section-label">Database</div>
+    <h2>Two SQLite databases. Zero server costs.</h2>
+    <p><code>questions.db</code> ships bundled and read-only. <code>user_data.db</code> lives in writable app storage and never leaves the device.</p>
+
+    <div class="schema-grid">
+      <div class="schema-box">
+        <div class="schema-box-header">
+          <span class="db-name">questions.db</span>
+          <span class="db-note">bundled · read-only</span>
+        </div>
+        <table class="schema-table">
+          <tr><td>questions</td><td>id, text_de, text_en, category, bundesland_code</td></tr>
+          <tr><td>answers</td><td>id, question_id, text_de, text_en, is_correct</td></tr>
+          <tr><td>vocab_keywords</td><td>id, question_id, word_de, article, ipa, text_en, word_type</td></tr>
+          <tr><td>categories</td><td>id, name_de, name_en, icon_name</td></tr>
+          <tr><td>bundeslaender</td><td>code, name_de, name_en</td></tr>
+        </table>
+      </div>
+      <div class="schema-box">
+        <div class="schema-box-header">
+          <span class="db-name">user_data.db</span>
+          <span class="db-note">writable · on-device</span>
+        </div>
+        <table class="schema-table">
+          <tr><td>user_settings</td><td>key, value — language, bundesland, is_premium</td></tr>
+          <tr><td>question_history</td><td>question_id, result, attempted_at</td></tr>
+          <tr><td>bookmarks</td><td>question_id, created_at</td></tr>
+          <tr><td>vocab_progress</td><td>vocab_id, is_learned, review_count</td></tr>
+          <tr><td>test_sessions</td><td>id, score, total, bundesland, completed_at</td></tr>
+          <tr><td>streaks</td><td>date, questions_done, words_done</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOLDER STRUCTURE
+  ════════════════════════════════════════════ -->
+  <section id="structure">
+    <div class="section-label">Repository</div>
+    <h2>Folder structure.</h2>
+
+    <div class="folder-tree">
+<span class="dir">germanready-app/</span>
+├── <span class="dir">app/</span>
+│   ├── <span class="highlight">main.py</span>                   <span class="comment"># entry point, ScreenManager</span>
+│   ├── <span class="dir">screens/</span>
+│   │   ├── <span class="file">login.py</span>
+│   │   ├── <span class="file">home.py</span>
+│   │   ├── <span class="file">practice.py</span>
+│   │   ├── <span class="file">test_simulation.py</span>
+│   │   ├── <span class="file">results.py</span>
+│   │   ├── <span class="file">vocab_list.py</span>
+│   │   ├── <span class="file">flashcards.py</span>
+│   │   └── <span class="file">settings.py</span>
+│   ├── <span class="dir">components/</span>
+│   │   ├── <span class="file">question_card.py</span>
+│   │   ├── <span class="file">vocab_table.py</span>
+│   │   ├── <span class="file">bottom_nav.py</span>
+│   │   └── <span class="file">lang_toggle.py</span>
+│   ├── <span class="dir">db/</span>
+│   │   ├── <span class="file">models.py</span>               <span class="comment"># Peewee models</span>
+│   │   ├── <span class="file">queries.py</span>
+│   │   └── <span class="highlight">questions.db</span>           <span class="comment"># bundled, read-only</span>
+│   ├── <span class="dir">assets/</span>
+│   │   ├── <span class="dir">fonts/</span>                   <span class="comment"># Playfair Display, DM Sans</span>
+│   │   └── <span class="dir">images/</span>
+│   └── <span class="dir">utils/</span>
+│       ├── <span class="file">admob.py</span>
+│       ├── <span class="file">iap.py</span>
+│       └── <span class="file">tts.py</span>
+├── <span class="dir">data-pipeline/</span>               <span class="comment"># (see germanready-data repo)</span>
+├── <span class="highlight">buildozer.spec</span>
+├── <span class="file">requirements.txt</span>
+└── <span class="file">README.html</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SETUP
+  ════════════════════════════════════════════ -->
+  <section id="setup">
+    <div class="section-label">Setup</div>
+    <h2>Get running locally.</h2>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Clone the repo</h4>
+          <p>Private repo — make sure your SSH key is added to GitHub first.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Install Python dependencies</h4>
+          <p>Requires Python 3.10+. Run from project root.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" data-lang="bash">
+<pre><span class="cm"># clone</span>
+git clone git@github.com:frauikram/germanready-app.git
+cd germanready-app
+
+<span class="cm"># install deps</span>
+pip install <span class="pk">kivy kivymd peewee</span> --break-system-packages
+
+<span class="cm"># run on desktop (for dev/testing)</span>
+<span class="kw">python</span> app/main.py</pre>
+    </div>
+
+    <div class="code-block" data-lang="bash">
+<pre><span class="cm"># data pipeline (separate repo)</span>
+pip install <span class="pk">spacy deepl epitran pandas</span> --break-system-packages
+python -m spacy download <span class="st">de_core_news_sm</span>
+
+<span class="cm"># seed the database</span>
+<span class="kw">python</span> data-pipeline/seed_db.py --source bamf_questions.pdf</pre>
+    </div>
+
+    <div class="code-block" data-lang="bash">
+<pre><span class="cm"># android build (requires buildozer + Docker recommended)</span>
+buildozer android debug
+
+<span class="cm"># deploy to connected device</span>
+buildozer android deploy run logcat</pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MONETISATION
+  ════════════════════════════════════════════ -->
+  <section id="monetisation">
+    <div class="section-label">Monetisation</div>
+    <h2>Simple. Transparent. User-first.</h2>
+    <p>No subscriptions. No dark patterns. The core product is free. premium is a one-time thank-you payment.</p>
+
+    <div class="tier-grid">
+      <div class="tier-card tier-free">
+        <div class="tier-name">Free Tier</div>
+        <div class="tier-price">€0 <span>forever</span></div>
+        <ul class="tier-features">
+          <li>Full 310-question bank</li>
+          <li>Test simulation mode</li>
+          <li>Practice + vocab drills</li>
+          <li>DE ⇄ EN toggle</li>
+          <li>Inline vocab keyword table</li>
+          <li>Banner ad (bottom of screen)</li>
+          <li>1 interstitial per test start</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-premium">
+        <div class="tier-name">premium Tier</div>
+        <div class="tier-price">€1.99 <span>one-time</span></div>
+        <ul class="tier-features">
+          <li>Everything in Free</li>
+          <li>Completely ad-free</li>
+          <li>Dark mode</li>
+          <li>TTS audio pronunciation</li>
+          <li>PDF vocabulary export</li>
+          <li>Offline guaranteed</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ROADMAP
+  ════════════════════════════════════════════ -->
+  <section id="roadmap">
+    <div class="section-label">Roadmap</div>
+    <h2>Eight phases to launch.</h2>
+
+    <div class="roadmap">
+      <div class="road-item">
+        <div class="road-dot done"></div>
+        <div class="road-content">
+          <div class="phase">Phase 0 · Weeks 1–2</div>
+          <h4>Data Pipeline</h4>
+          <p>Extract all 310 Qs from BAMF PDF → DeepL translations → spaCy vocab extraction → SQLite seed</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot active"></div>
+        <div class="road-content">
+          <div class="phase mint">Phase 1 · Weeks 2–3 · Current</div>
+          <h4>App Scaffold</h4>
+          <p>Kivy project setup, ScreenManager, nav bar, SQLite wired, question card UI</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot next"></div>
+        <div class="road-content">
+          <div class="phase dim">Phase 2 · Weeks 3–4</div>
+          <h4>Practice + Test Modes</h4>
+          <p>Full practice with filters, test simulation with timer, results screen, state selector</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot next"></div>
+        <div class="road-content">
+          <div class="phase dim">Phase 3 · Week 4–5</div>
+          <h4>Vocabulary System</h4>
+          <p>Inline vocab table, vocab list screen, flashcard drills, article quiz mode</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot next"></div>
+        <div class="road-content">
+          <div class="phase dim">Phase 4 · Week 5</div>
+          <h4>Bilingual Toggle</h4>
+          <p>DE/EN toggle wired across all screens, persistent state, full EN text from DB</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot future"></div>
+        <div class="road-content">
+          <div class="phase dim">Phase 5 · Week 6</div>
+          <h4>Ads + Premium IAP</h4>
+          <p>AdMob banner + interstitial, in-app purchase unlock, ad-free gating</p>
+        </div>
+      </div>
+      <div class="road-item">
+        <div class="road-dot future"></div>
+        <div class="road-content">
+          <div class="phase dim">Phase 6–7 · Weeks 7–8</div>
+          <h4>Polish + Play Store Launch</h4>
+          <p>KivyMD dark mode theming, QA on device, Buildozer AAB, Google Play submission</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px; padding:20px; background:var(--bg3); border:0.5px solid var(--border2); border-radius:14px;">
+      <h3 style="margin-bottom:8px;">Future versions</h3>
+      <p style="margin:0; font-size:13px; color:var(--white3);">
+        Urdu language toggle (v1.1) · Turkish toggle (v1.2) · Spaced repetition FSRS algorithm ·
+        Goethe A1/A2 vocab packs (€0.99 add-ons) · PWA web version · Daily word widget
+      </p>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+<div class="footer">
+  <div>
+    <div class="footer-brand">GermanReady</div>
+    <div class="footer-sub">
+      Leben in Deutschland &amp; Einbürgerungstest Prep<br>
+      Published by <strong style="color:rgba(245,237,216,0.6)">RealityMedia LLC</strong> · v1.0.0 · Build 24<br>
+      github.com/frauikram · Private Repository
+    </div>
+  </div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#stack">Stack</a>
+    <a href="#schema">Schema</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#setup">Setup</a>
+  </div>
+</div>
+
+</body>
+</html>
